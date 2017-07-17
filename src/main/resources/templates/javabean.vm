@@ -1,0 +1,55 @@
+##首字母大写
+#macro(initUpperCase $field)
+    $field.toUpperCase().substring(0,1)$field.substring(1)##
+#end
+
+package $package;
+
+import java.util.date;
+import java.math.BigDecimal;
+
+#if($superClass)
+import $superClass;
+#end
+
+#if($interfaces)
+    #foreach($interface in $interfaces)
+    import $interface;
+    #end
+#end
+
+public class $className
+#if($superClass)
+extends $superClass
+#end
+
+#if($interfaces)
+    implements
+    #foreach($interface in $interfaces)
+        $interface
+        #if( $foreach.hasNext )
+         ,
+        #end
+    #end
+#end {
+
+## define field
+#if($fields)
+    #foreach($field in $fields)
+    private $field.type $field.name;
+    #end
+#end
+
+## getter/setter method
+#if($fields)
+    #foreach($field in $fields)
+        public void set#initUpperCase($field.name)($field.type $field.name) {
+            this.$field.name = $field.name;
+        }
+
+        public $field.type get#initUpperCase($$field.name)() {
+            return this.$field.name;
+        }
+    #end
+#end
+}
