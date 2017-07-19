@@ -1,33 +1,35 @@
+import lemon.FieldType;
 import lemon.Lemon;
-import lemon.model.Field;
+import lemon.Request;
+import lemon.model.FieldVO;
 import org.junit.Test;
 
-import java.util.*;
+import java.io.Serializable;
 
 /**
  * @author Ricky Fung
  */
 public class AppTest {
 
+    Lemon lemon = new Lemon();
+
     @Test
     public void testJavaBean() {
 
-        Lemon lemon = new Lemon();
+        Request request = new Request.Builder()
+                .packageName("com.mindflow")
+                .className("User")
+                .addInterface(Serializable.class.getName())
+                .addField(new FieldVO(FieldType.Long, "id"))
+                .addField(new FieldVO(FieldType.String, "name"))
+                .addField(new FieldVO(FieldType.Integer, "age"))
+                .addField(new FieldVO(FieldType.Date, "birthday"))
+                .addField(new FieldVO(FieldType.Boolean, "gender"))
+                .build();
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("package", "com.mindflow");
-        params.put("className", "User");
-
-        params.put("interfaces", Arrays.asList("java.io.Serializable"));
-
-        List<Field> fields = new ArrayList<>();
-        fields.add(new Field("long", "id"));
-        fields.add(new Field("String", "name"));
-        fields.add(new Field("int", "age"));
-        params.put("fields", fields);
-
-        String code = lemon.genCode("/templates/javabean.vm", params);
+        String code = lemon.execute(request);
         System.out.println(code);
+
     }
 
 }

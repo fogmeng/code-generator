@@ -1,55 +1,45 @@
-##首字母大写
-#macro(initUpperCase $field)
-    $field.toUpperCase().substring(0,1)$field.substring(1)##
+package $vo.package.name;
+
+#if($vo.imports)
+#foreach($import in $vo.imports)
+import $import.name;
 #end
-
-package $package;
-
-import java.util.date;
-import java.math.BigDecimal;
-
-#if($superClass)
+#end
+## declare superClass
+#if($vo.superClass)
 import $superClass;
 #end
-
-#if($interfaces)
-    #foreach($interface in $interfaces)
-    import $interface;
-    #end
+## declare interfaces
+#if($vo.interfaces)
+#foreach($interface in $vo.interfaces)
+import $interface;
+#end
 #end
 
-public class $className
-#if($superClass)
-extends $superClass
-#end
-
-#if($interfaces)
-    implements
-    #foreach($interface in $interfaces)
-        $interface
-        #if( $foreach.hasNext )
-         ,
-        #end
+## define class
+public class $vo.className #if($vo.superClass) extends $vo.superClass #end #if($vo.interfaces) implements ##
+    #foreach($interface in $vo.interfaces)
+        $interface #if( $foreach.hasNext ),#end
     #end
 #end {
 
 ## define field
-#if($fields)
-    #foreach($field in $fields)
+#if($vo.fields)
+#foreach($field in $vo.fields)
     private $field.type $field.name;
-    #end
+#end
 #end
 
 ## getter/setter method
-#if($fields)
-    #foreach($field in $fields)
-        public void set#initUpperCase($field.name)($field.type $field.name) {
-            this.$field.name = $field.name;
-        }
+#if($vo.fields)
+#foreach($field in $vo.fields)
+    public void set$field.initialUpper ($field.type $field.name) {
+        this.$field.name = $field.name;
+    }
 
-        public $field.type get#initUpperCase($$field.name)() {
-            return this.$field.name;
-        }
-    #end
+    public $field.type get$field.initialUpper () {
+        return this.$field.name;
+    }
+#end
 #end
 }
