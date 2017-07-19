@@ -9,22 +9,16 @@ import java.util.*;
  * @author Ricky Fung
  */
 public class Request {
-    private final String packageName;
     private final String className;
     private final List<String> interfaces;
     private final String superClass;
     private final List<FieldVO> fields;
 
     Request(Builder builder) {
-        this.packageName = builder.packageName;
         this.className = builder.className;
         this.interfaces = builder.interfaces!=null ? new ArrayList<>(builder.interfaces) : null;
         this.superClass = builder.superClass;
         this.fields = builder.fields!=null ? new ArrayList<>(builder.fields.values()) : null;
-    }
-
-    public String getPackageName() {
-        return packageName;
     }
 
     public String getClassName() {
@@ -44,16 +38,10 @@ public class Request {
     }
 
     public static class Builder {
-        private String packageName;
         private String className;
         private Set<String> interfaces;
         private String superClass;
         private Map<String, FieldVO> fields;
-
-        public Builder packageName(String packageName) {
-            this.packageName = packageName;
-            return this;
-        }
 
         public Builder className(String className) {
             this.className = className;
@@ -87,7 +75,7 @@ public class Request {
                 throw new IllegalArgumentException("field name can not be null");
             }
             if(fields==null) {
-                fields = new HashMap<>();
+                fields = new LinkedHashMap<>();
             }
             if(fields.containsKey(field.getName())) {
                 throw new IllegalArgumentException("duplicated field:"+field.getName());

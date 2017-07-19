@@ -11,16 +11,13 @@ public class FieldVO {
     private FieldType type;
     private String name;
     private String initialUpper;
-    private String boolType;    // 0 or 1
-
-    private static final String TRUE = "1";
-    private static final String FALSE = "0";
+    private int boolType;    // 0 or 1
 
     public FieldVO(FieldType type, String name) {
         this.type = type;
         this.name = name;
         this.initialUpper = StringUtils.capitalize(name);
-        this.boolType = type==FieldType.Boolean ? TRUE:FALSE;
+        this.boolType = type==FieldType.Boolean ? 1:0;
     }
 
     public FieldType getType() {
@@ -35,7 +32,7 @@ public class FieldVO {
         return initialUpper;
     }
 
-    public String getBoolType() {
+    public int getBoolType() {
         return boolType;
     }
 

@@ -1,26 +1,18 @@
 package $vo.package.name;
 
+## imports
 #if($vo.imports)
 #foreach($import in $vo.imports)
 import $import.name;
 #end
 #end
-## declare superClass
-#if($vo.superClass)
-import $superClass;
-#end
-## declare interfaces
-#if($vo.interfaces)
-#foreach($interface in $vo.interfaces)
-import $interface;
-#end
-#end
 
 ## define class
-public class $vo.className #if($vo.superClass) extends $vo.superClass #end #if($vo.interfaces) implements ##
-    #foreach($interface in $vo.interfaces)
-        $interface #if( $foreach.hasNext ),#end
-    #end
+public class $vo.className #if($vo.superClass) extends $vo.superClass #end ##
+#if($vo.interfaces) implements
+#foreach($interface in $vo.interfaces)
+    $interface #if( $foreach.hasNext ),#end
+#end
 #end {
 
 ## define field
@@ -37,9 +29,10 @@ public class $vo.className #if($vo.superClass) extends $vo.superClass #end #if($
         this.$field.name = $field.name;
     }
 
-    public $field.type get$field.initialUpper () {
+    public $field.type#if( $field.boolType == 1 ) is#else get#end$field.initialUpper () {
         return this.$field.name;
     }
+
 #end
 #end
 }

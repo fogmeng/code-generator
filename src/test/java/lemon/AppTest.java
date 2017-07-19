@@ -1,24 +1,29 @@
-import lemon.FieldType;
-import lemon.Lemon;
-import lemon.Request;
+package lemon;
+
 import lemon.model.FieldVO;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
+ *
  * @author Ricky Fung
  */
 public class AppTest {
 
-    Lemon lemon = new Lemon();
+    private Lemon lemon = new Lemon.Builder()
+            .srcPath(new File("D:/code-generator/src"))
+            .build();
 
+    @Ignore
     @Test
-    public void testJavaBean() {
+    public void testJavaBean() throws IOException {
 
         Request request = new Request.Builder()
-                .packageName("com.mindflow")
-                .className("User")
+                .className("com.mindflow.User")
                 .addInterface(Serializable.class.getName())
                 .addField(new FieldVO(FieldType.Long, "id"))
                 .addField(new FieldVO(FieldType.String, "name"))
@@ -27,9 +32,9 @@ public class AppTest {
                 .addField(new FieldVO(FieldType.Boolean, "gender"))
                 .build();
 
-        String code = lemon.execute(request);
-        System.out.println(code);
-
+        Response response = lemon.execute(request);
+        System.out.println(response.getCode());
+        System.out.println(response.getPath());
     }
 
 }
