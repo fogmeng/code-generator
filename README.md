@@ -44,3 +44,5 @@ The minimum requirements to run the quick start are:
     }
 
 ```
+
+参见src/test/lemon/AppTest.java.
